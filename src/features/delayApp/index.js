@@ -16,9 +16,9 @@ export const state = observable({
   isDelayAppScreenVisible: DEFAULT_FEATURES_CONFIG.needToWaitToProceed,
 });
 
-function setVisibility(value) {
+function setVisibility() {
   Object.assign(state, {
-    isDelayAppScreenVisible: value,
+    isDelayAppScreenVisible: false,
   });
 }
 
