@@ -233,7 +233,7 @@ class ButtonComponent extends Component<IProps> {
       wrapperComponent = (
         <button
           id={id}
-          type={type}
+          type={type as any}
           onClick={onClick}
           className={classnames({
             [`${classes.button}`]: true,
