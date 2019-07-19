@@ -25,6 +25,7 @@ interface IProps extends React.InputHTMLAttributes<HTMLInputElement>, IFormField
   showPasswordToggle?: boolean;
   data: IData;
   inputClassName?: string;
+  onEnterKey?: Function;
 }
 
 interface IState {
@@ -33,7 +34,7 @@ interface IState {
 }
 
 class InputComponent extends Component<IProps, IState> {
-  public static defaultProps = {
+  static defaultProps = {
     focus: false,
     onChange: () => {},
     onBlur: () => {},
@@ -81,6 +82,13 @@ class InputComponent extends Component<IProps, IState> {
     }
   }
 
+  onInputKeyPress(e: React.KeyboardEvent) {
+    if (e.key === 'Enter') {
+      const { onEnterKey } = this.props;
+      onEnterKey && onEnterKey();
+    }
+  }
+
   render() {
     const {
       classes,
@@ -102,6 +110,11 @@ class InputComponent extends Component<IProps, IState> {
       spellCheck,
       onBlur,
       onFocus,
+      min,
+      max,
+      step,
+      required,
+      noMargin,
     } = this.props;
 
     const {
@@ -115,11 +128,14 @@ class InputComponent extends Component<IProps, IState> {
       <Wrapper
         className={className}
         identifier="franz-input"
+        noMargin={noMargin}
       >
         <Label
           title={label}
           showLabel={showLabel}
           htmlFor={id}
+          className={classes.label}
+          isRequired={required}
         >
           <div
             className={classnames({
@@ -147,6 +163,10 @@ class InputComponent extends Component<IProps, IState> {
               onFocus={onFocus}
               onBlur={onBlur}
               disabled={disabled}
+              onKeyPress={this.onInputKeyPress.bind(this)}
+              min={min}
+              max={max}
+              step={step}
             />
             {suffix && (
               <span className={classes.suffix}>
